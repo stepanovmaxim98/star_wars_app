@@ -1,0 +1,27 @@
+.card-row {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100%;
+  margin: 0 auto;
+  margin-bottom: 30px;
+}
+.header {
+  color: white;
+  font-size: 55px;
+  font-weight: 900;
+  text-align: center;
+  color: blueviolet;
+  text-shadow: 1px 0 1px #000, 0 1px 1px #000, -1px 0 1px #000, 0 -1px 1px #000;
+}
+.mb {
+  margin-bottom: 50px;
+}
+.container {
+    padding: 0 20px;
+}
+.button-block {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
