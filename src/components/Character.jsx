@@ -16,20 +16,28 @@ export default function Character({ characterId }) {
   const [characterData, setCharacterData] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [isFilled, setIsField] = useState(false);
+  const [isFilled, setIsField] = useState(false); // state like
 
   function likeClick() {
     setIsField((prevState) => !prevState);
   }
 
   function calculationHeight(str) {
-    let height = parseInt(str, 10);
-    let meters = Math.floor(height / 100);
-    let centimeters = height % 100;
+    const height = parseInt(str, 10);
+    const meters = Math.floor(height / 100);
+    const centimeters = height % 100;
     return `${meters} метр${meters !== 1 ? "а" : ""} ${centimeters} сантиметр${
       centimeters !== 1 ? "ов" : ""
-    }`;
+    };`;
   }
+
+  //  function calculationHeight on TS
+  //  function calculationHeight(str: string): string {
+  //   const height: number = parseInt(str, 10);
+  //   const meters: number = Math.floor(height / 100);
+  //   const centimeters: number = height % 100;
+  //   return `${meters} метр${meters !== 1 ? "а" : ""} ${centimeters} сантиметр${centimeters !== 1 ? "ов" : ""}`;
+  // }
 
   useEffect(() => {
     setLoading(true);

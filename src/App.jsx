@@ -35,7 +35,7 @@ function App() {
         <h1 className="title has-text-primary	is-size-1 has-text-centered">
           Star-Wars
         </h1>
-        <h1 className="subtitle has-text-centered is-size-3 has-text-primary">
+        <h1 className="subtitle has-text-centered is-size-3 has-text-primary mb-5">
           Characters
         </h1>
         <Character characterId={characterId} />
