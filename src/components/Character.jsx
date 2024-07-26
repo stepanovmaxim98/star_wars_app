@@ -1,25 +1,28 @@
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 
-const getUrl = (id) => `https://swapi.dev/api/people/${id}/?format=json`;
 
-const mapCharacterData = (data) => {
+export const mapCharacterData = (data) => {
   const { name, mass, height } = data;
   return {
     name: name ?? "Name is unknown",
     mass: mass ?? 0,
     height: height ?? "Height is unknown",
+    isLike: false
   };
 };
 
-export default function Character({ characterId }) {
-  const [characterData, setCharacterData] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [isFilled, setIsField] = useState(false); // state like
+export default function Character({ character, toggleLike,  loading, error }) {
+  console.log('character', character)
+  // const [characterData, setCharacterData] = useState({});
+  // const [loading, setLoading] = useState(true);
+  // const [error, setError] = useState(null);
+  // const [isFilled, setIsField] = useState(false); // state like
 
   function likeClick() {
-    setIsField((prevState) => !prevState);
+    toggleLike(character.id)
+    // window.alert('Implement me')
+    // setIsField((prevState) => !prevState);
   }
 
   function calculationHeight(str) {
@@ -39,22 +42,22 @@ export default function Character({ characterId }) {
   //   return `${meters} метр${meters !== 1 ? "а" : ""} ${centimeters} сантиметр${centimeters !== 1 ? "ов" : ""}`;
   // }
 
-  useEffect(() => {
-    setLoading(true);
-    fetch(getUrl(characterId))
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        setCharacterData(data);
-      })
-      .catch((error) => {
-        setError(error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [characterId]);
+  // useEffect(() => {
+  //   setLoading(true);
+  //   fetch(getUrl(characterId))
+  //     .then((response) => {
+  //       return response.json();
+  //     })
+  //     .then((data) => {
+  //       setCharacterData(data);
+  //     })
+  //     .catch((error) => {
+  //       setError(error);
+  //     })
+  //     .finally(() => {
+  //       setLoading(false);
+  //     });
+  // }, [characterId]);
 
   if (loading)
     return (
@@ -69,7 +72,7 @@ export default function Character({ characterId }) {
       </div>
     );
 
-  const { name, mass, height } = mapCharacterData(characterData);
+  const { name, mass, height, isLike } = character;
 
   return (
     <div className="box">
@@ -77,7 +80,7 @@ export default function Character({ characterId }) {
       <h3 className="subtitle">Вес: {mass}</h3>
       <h3 className="subtitle ">Рост: {calculationHeight(height)}</h3>
       <button onClick={likeClick} className="button is-danger">
-        {isFilled ? <AiFillHeart /> : <AiOutlineHeart />}
+        {isLike ? <AiFillHeart /> : <AiOutlineHeart />}
       </button>
     </div>
   );
