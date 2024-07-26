@@ -1,85 +1,58 @@
-import { useState } from "react";
-import { useEffect } from "react";
-import Card from "./components/Card";
-import "./App.css";
-import Button from "./components/Button/Button";
+import { useEffect, useState } from "react";
+import Character from "./components/Character.jsx";
 
 function App() {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [showButton, setShowButton] = useState(true);
-  const [apiNumber, setApiNumber] = useState(
-    "https://swapi.dev/api/people/?page=2&format=json"
-  );
-  useEffect(() => {
-    fetch(apiNumber)
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        setData(data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        setError(error);
-        setLoading(false);
-      });
-  }, [apiNumber]);
+  const [characterId, setCharacterId] = useState(1);
+  const [count, setCount] = useState(0);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
-  console.log(data);
   function nextPage() {
-    if (data.next !== null) {
-      setApiNumber(data.next);
-    } else {
-      setShowButton(false);
-    }
+    setCharacterId((cur) => cur + 1);
   }
   function previousPage() {
-    if (data.previous !== null) {
-      setApiNumber(data.previous);
-    } else {
-      setShowButton(false);
+    if (characterId > 1) {
+      setCharacterId((cur) => cur - 1);
     }
   }
 
-  function calculationHeight(str) {
-    let height = parseInt(str, 10);
-    let meters = Math.floor(height / 100);
-    let centimeters = height % 100;
-    return `${meters} метр${meters !== 1 ? "а" : ""} ${centimeters} сантиметр${
-      centimeters !== 1 ? "ов" : ""
-    }`;
-  }
+  useEffect(() => {
+    async function getCount() {
+      try {
+        const response = await fetch(
+          "https://swapi.dev/api/people/?format=json"
+        );
+        const data = await response.json();
+        setCount(data.count);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getCount();
+  }, []);
 
   return (
     <>
-      <div className="container">
-        <h1 className="header">Star-Wars</h1>
-        <h1 className="header mb">Characters</h1>
-        <div className="card-row">
-          {data.results.map((e) => (
-            <Card
-              key={e.id}
-              name={e.name}
-              weigth={e.mass}
-              heigth={calculationHeight(e.height)}
-            />
-          ))}
-        </div>
-        <div className="button-block">
-          <Button
+      <div className="container is-widescreen">
+        <h1 className="title has-text-primary	is-size-1 has-text-centered">
+          Star-Wars
+        </h1>
+        <h1 className="subtitle has-text-centered is-size-3 has-text-primary mb-5">
+          Characters
+        </h1>
+        <Character characterId={characterId} />
+
+        <div className="buttons">
+          <button
             onClick={previousPage}
-            title="Назад"
-            className={showButton === true ? "" : "hidden"}
-          />
-          <Button
+            className={characterId > 1 ? "button is-info" : "is-hidden"}
+          >
+            Previuos
+          </button>
+          <button
             onClick={nextPage}
-            title="Вперед"
-            className={showButton === true ? "" : "hidden"}
-          />
+            className={characterId < count ? "button is-info" : "is-hidden"}
+          >
+            Next
+          </button>
         </div>
       </div>
     </>

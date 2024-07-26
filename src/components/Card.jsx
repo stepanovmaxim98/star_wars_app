@@ -1,5 +1,3 @@
-import "./Card.css";
-
 export default function Card({ name, weigth, heigth }) {
   return (
     <div className="box card">
