@@ -40,7 +40,7 @@ function App() {
     const characterToLike = characters.find(item => item.id===id)
     characterToLike.isLike = !characterToLike.isLike
     console.log('character after like', characterToLike)
-    setCharacter(()=>characterToLike)
+    setCharacter({...characterToLike})
   }
 
   async function nextPage() {
